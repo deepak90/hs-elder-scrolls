@@ -5,12 +5,14 @@ const App = () => {
     const [cardData, setCards] = useState([]);
 
     async function fetchData() {
-        const res = await fetch(
-            'https://api.elderscrollslegends.io/v1/cards?pageSize=20'
-        );
-        res.json()
-            .then(res => setCards(res))
-            .catch(err => setErrors(err));
+        try {
+            const res = await fetch(
+                'https://api.elderscrollslegends.io/v1/cards?pageSize=20'
+            );
+            res.json().then(res => setCards(res));
+        } catch (err) {
+            setErrors(err);
+        }
     }
 
     useEffect(() => {
@@ -19,8 +21,16 @@ const App = () => {
 
     const { cards = [] } = cardData;
 
-    if (!cards.length) {
+    if (!cards.length && !hasError) {
         return <span>Loading...</span>;
+    }
+
+    if (hasError) {
+        return (
+            <span>
+                We're unable to fetch Cards at this time, Please try again later
+            </span>
+        );
     }
 
     return cards.map(item => {
