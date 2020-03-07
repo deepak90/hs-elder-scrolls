@@ -7,23 +7,20 @@ const Card = ({ info }) => {
         name: cardName,
         text: cardDescription,
         type: cardType,
-        set: { name: setName }
+        set: { name: cardSetName }
     } = info;
     return (
-        <article className="card">
-            <div className="card__media">
-                <img src={imageUrl} alt={cardName} />
-                <span className="card__category">{setName}</span>
+        <li className="card">
+            <img src={imageUrl} alt={cardName} className="card-image" />
+            <h4 className="card-title">{cardName}</h4>
+            <div className="card-type">
+                <i>{cardType}</i>
             </div>
-
-            <div className="card__content">
-                <header className="card__header">
-                    <h2 className="card__title">{cardName}</h2>
-                    <div className="card__subtitle">{cardType}</div>
-                </header>
-                <p className="card__excerpt">{cardDescription}</p>
+            <div className="card-set-name">
+                <i>{cardSetName}</i>
             </div>
-        </article>
+            <p className="card-description">{cardDescription}</p>
+        </li>
     );
 };
 
