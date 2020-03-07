@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Card from './components/Card';
 
 const App = () => {
     const [hasError, setErrors] = useState(false);
@@ -34,23 +35,8 @@ const App = () => {
     }
 
     return cards.map(item => {
-        const {
-            id,
-            imageUrl,
-            name,
-            text,
-            type,
-            set: { name: setName }
-        } = item;
-        return (
-            <div key={id}>
-                <img src={imageUrl} alt={`${name}`} />
-                <h2>{name}</h2>
-                <p>{text}</p>
-                <h3>{type}</h3>
-                <h3>{setName}</h3>
-            </div>
-        );
+        const { id } = item;
+        return <Card key={id} info={item} />;
     });
 };
 
