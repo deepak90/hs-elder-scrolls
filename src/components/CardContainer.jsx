@@ -6,30 +6,48 @@ import '../css/card-container.css';
 
 const CardContainer = () => {
     const [hasError, setErrors] = useState(false);
-    const [cardData, setCards] = useState([]);
+    const [cards, setCards] = useState([]);
+    const [nextUrl, setUrl] = useState(
+        'https://api.elderscrollslegends.io/v1/cards?pageSize=20'
+    );
+    const [isFetching, setIsFetching] = useState(false);
 
     async function fetchData() {
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
         try {
-            const res = await fetch(
-                'https://api.elderscrollslegends.io/v1/cards?pageSize=20'
-            );
-            await sleep(2000);
-            res.json().then(res => setCards(res));
+            const res = await fetch(nextUrl);
+            res.json().then(res => {
+                setCards([...cards, ...res.cards]);
+                setUrl(res._links.next || '');
+                setIsFetching(false);
+            });
         } catch (err) {
             setErrors(err);
         }
     }
 
+    function handleScroll() {
+        if (
+            window.innerHeight + document.documentElement.scrollTop !==
+                document.documentElement.offsetHeight ||
+            isFetching
+        )
+            return;
+        setIsFetching(true);
+    }
+
     useEffect(() => {
-        fetchData();
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const { cards = [] } = cardData;
+    useEffect(() => {
+        fetchData();
+    }, [isFetching]);
 
-    if (!cards.length && !hasError) {
+    if ((isFetching && !hasError) || !cards.length) {
         return <CardSkeleton />;
     }
 
@@ -43,10 +61,11 @@ const CardContainer = () => {
 
     return (
         <ul className="list">
-            {cards.map(item => {
-                const { id } = item;
-                return <Card key={id} info={item} />;
-            })}
+            {cards &&
+                cards.map(item => {
+                    const { id } = item;
+                    return <Card key={id} info={item} />;
+                })}
         </ul>
     );
 };
