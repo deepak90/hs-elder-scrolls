@@ -1,16 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import Card from './Card';
 import CardSkeleton from './CardSkeleton';
+import { forceCheck } from 'react-lazyload';
 
 import '../css/card-container.css';
 
 const CardContainer = () => {
+    const baseUrl = 'https://api.elderscrollslegends.io/v1/cards?pageSize=20';
     const [hasError, setErrors] = useState(false);
     const [cards, setCards] = useState([]);
-    const [nextUrl, setNext] = useState(
-        'https://api.elderscrollslegends.io/v1/cards?pageSize=20'
-    );
+    const [nextUrl, setNext] = useState(baseUrl);
     const [isFetching, setIsFetching] = useState(true);
+    const [searchTerm, setSearchTerm] = React.useState('');
+
+    const handleChange = event => {
+        setSearchTerm(event.target.value);
+        if (event.target.value === '') {
+            resetData();
+            forceCheck();
+        }
+    };
+
+    async function resetData() {
+        try {
+            const res = await fetch(baseUrl);
+            res.json().then(res => {
+                setCards([...res.cards]);
+                setNext((res._links && res._links.next) || null);
+                setIsFetching(false);
+            });
+        } catch (err) {
+            setErrors(err);
+        }
+    }
+
+    async function fetchData(searchTerm = '') {
+        try {
+            const url = searchTerm ? `${baseUrl}&name=${searchTerm}` : nextUrl;
+            const res = await fetch(url);
+            res.json().then(res => {
+                searchTerm
+                    ? setCards([...res.cards])
+                    : setCards([...cards, ...res.cards]);
+                setNext((res._links && res._links.next) || null);
+                setIsFetching(false);
+            });
+        } catch (err) {
+            setErrors(err);
+        }
+    }
 
     useEffect(() => {
         function handleScroll() {
@@ -21,38 +59,24 @@ const CardContainer = () => {
             ) {
                 return;
             }
-            if (nextUrl) {
+            if (nextUrl && !searchTerm) {
                 setIsFetching(true);
             }
         }
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [isFetching]);
+    }, [searchTerm, isFetching]);
 
     useEffect(() => {
-        async function fetchData() {
-            try {
-                const res = await fetch(nextUrl);
-                res.json().then(res => {
-                    setCards([...cards, ...res.cards]);
-                    setNext(res._links.next || null);
-                    setIsFetching(false);
-                });
-            } catch (err) {
-                setErrors(err);
-            }
-        }
         if (!isFetching) return;
         fetchData();
     }, [isFetching]);
 
-    if (!cards.length && !hasError) {
-        return (
-            <ul className="card-list">
-                <CardSkeleton count={9} />
-            </ul>
-        );
-    }
+    useEffect(() => {
+        if (!searchTerm) return;
+        fetchData(searchTerm);
+        forceCheck();
+    }, [searchTerm]);
 
     if (hasError) {
         return (
@@ -63,14 +87,28 @@ const CardContainer = () => {
     }
 
     return (
-        <ul className="card-list">
-            {cards &&
-                cards.map(item => {
-                    const { id } = item;
-                    return <Card key={id} info={item} />;
-                })}
-            {isFetching && <CardSkeleton count={5} />}
-        </ul>
+        <React.Fragment>
+            <input
+                type="text"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={handleChange}
+            />
+            {!cards.length && !hasError ? (
+                <ul className="card-list">
+                    <CardSkeleton count={9} />
+                </ul>
+            ) : (
+                <ul className="card-list">
+                    {cards &&
+                        cards.map(item => {
+                            const { id } = item;
+                            return <Card key={id} info={item} />;
+                        })}
+                    {isFetching && <CardSkeleton count={5} />}
+                </ul>
+            )}
+        </React.Fragment>
     );
 };
 
