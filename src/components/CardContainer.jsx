@@ -37,7 +37,7 @@ const CardContainer = () => {
         async function fetchData() {
             try {
                 const res = await fetch(nextUrl);
-                await sleep(500);
+                await sleep(300);
                 res.json().then(res => {
                     setCards([...cards, ...res.cards]);
                     setNext(res._links.next || null);
@@ -77,7 +77,6 @@ const CardContainer = () => {
                             once={true}
                             key={id}
                             height={600}
-                            debounce={500}
                             placeholder={<CardSkeleton count={1} />}
                         >
                             <Card info={item} />
