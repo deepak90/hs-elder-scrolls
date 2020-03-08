@@ -17,7 +17,6 @@ const CardContainer = () => {
         setSearchTerm(event.target.value);
         if (event.target.value === '') {
             resetData();
-            forceCheck();
         }
     };
 
@@ -28,6 +27,7 @@ const CardContainer = () => {
                 setCards([...res.cards]);
                 setNext((res._links && res._links.next) || null);
                 setIsFetching(false);
+                forceCheck();
             });
         } catch (err) {
             setErrors(err);
@@ -44,6 +44,9 @@ const CardContainer = () => {
                     : setCards([...cards, ...res.cards]);
                 setNext((res._links && res._links.next) || null);
                 setIsFetching(false);
+                if (searchTerm) {
+                    forceCheck();
+                }
             });
         } catch (err) {
             setErrors(err);
@@ -65,7 +68,7 @@ const CardContainer = () => {
         }
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [searchTerm, isFetching]);
+    }, [isFetching]);
 
     useEffect(() => {
         if (!isFetching) return;
@@ -75,7 +78,6 @@ const CardContainer = () => {
     useEffect(() => {
         if (!searchTerm) return;
         fetchData(searchTerm);
-        forceCheck();
     }, [searchTerm]);
 
     if (hasError) {
