@@ -16,8 +16,8 @@ const CardContainer = () => {
     useEffect(() => {
         function handleScroll() {
             if (
-                window.innerHeight + document.documentElement.scrollTop !==
-                    document.documentElement.offsetHeight ||
+                window.innerHeight + document.documentElement.scrollTop <=
+                    document.documentElement.offsetHeight - 300 ||
                 isFetching
             ) {
                 return;
@@ -37,6 +37,7 @@ const CardContainer = () => {
         async function fetchData() {
             try {
                 const res = await fetch(nextUrl);
+                await sleep(500);
                 res.json().then(res => {
                     setCards([...cards, ...res.cards]);
                     setNext(res._links.next || null);

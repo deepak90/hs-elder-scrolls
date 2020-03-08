@@ -11,17 +11,21 @@ const Card = ({ info }) => {
     } = info;
     return (
         <li className="card">
-            <img src={imageUrl} alt={cardName} className="card-image" />
-            <h4 className="card-title">{cardName}</h4>
-            <div className="card-type">
-                <i>{cardType}</i>
+            <div className="card-image-container">
+                <img src={imageUrl} alt={cardName} className="card-image" />
             </div>
-            <div className="card-set-name">
-                <i>{cardSetName}</i>
+            <div className="card-info-container">
+                <h4 className="card-title">{cardName}</h4>
+                <div className="card-type">
+                    <i>{cardType}</i>
+                </div>
+                <div className="card-set-name">
+                    <i>{cardSetName}</i>
+                </div>
+                {cardDescription && (
+                    <p className="card-description">{cardDescription}</p>
+                )}
             </div>
-            {cardDescription && (
-                <p className="card-description">{cardDescription}</p>
-            )}
         </li>
     );
 };
