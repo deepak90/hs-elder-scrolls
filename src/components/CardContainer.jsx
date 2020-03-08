@@ -4,6 +4,8 @@ import CardSkeleton from './CardSkeleton';
 import { forceCheck } from 'react-lazyload';
 
 import '../css/card-container.css';
+import NoResults from './NoResults';
+import ErrorCard from './ErrorCard';
 
 const CardContainer = () => {
     const baseUrl = 'https://api.elderscrollslegends.io/v1/cards?pageSize=20';
@@ -24,12 +26,18 @@ const CardContainer = () => {
     async function resetData() {
         try {
             const res = await fetch(baseUrl);
-            res.json().then(res => {
-                setCards([...res.cards]);
-                setNext((res._links && res._links.next) || null);
-                setIsFetching(false);
-                forceCheck();
-            });
+            if (res.ok) {
+                res.json().then(res => {
+                    setCards([...res.cards]);
+                    setNext((res._links && res._links.next) || null);
+                    setIsFetching(false);
+                    forceCheck();
+                    setSearchTerm('');
+                    setNoResults(false);
+                });
+            } else {
+                throw Error('Non 200 response recieved from API');
+            }
         } catch (err) {
             setErrors(err);
         }
@@ -39,23 +47,27 @@ const CardContainer = () => {
         try {
             const url = searchTerm ? `${baseUrl}&name=${searchTerm}` : nextUrl;
             const res = await fetch(url);
-            res.json().then(res => {
-                if (searchTerm) {
-                    if (res.cards && res.cards.length) {
-                        setCards([...res.cards]);
-                        setNoResults(false);
+            if (res.ok) {
+                res.json().then(res => {
+                    if (searchTerm) {
+                        if (res.cards && res.cards.length) {
+                            setCards([...res.cards]);
+                            setNoResults(false);
+                        } else {
+                            setNoResults(true);
+                        }
                     } else {
-                        setNoResults(true);
+                        setCards([...cards, ...res.cards]);
                     }
-                } else {
-                    setCards([...cards, ...res.cards]);
-                }
-                setNext((res._links && res._links.next) || null);
-                setIsFetching(false);
-                if (searchTerm) {
-                    forceCheck();
-                }
-            });
+                    setNext((res._links && res._links.next) || null);
+                    setIsFetching(false);
+                    if (searchTerm) {
+                        forceCheck();
+                    }
+                });
+            } else {
+                throw Error('Non 200 response recieved from API');
+            }
         } catch (err) {
             setErrors(err);
         }
@@ -90,38 +102,51 @@ const CardContainer = () => {
 
     return (
         <React.Fragment>
-            <input
-                type="text"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={handleChange}
-            />
-            {searchTerm && !noResults && (
-                <span>{`Searching for ${searchTerm}`}</span>
-            )}
-            {hasError && (
-                <span>
-                    We're unable to fetch Cards at this time, Please try again
-                    later
-                </span>
-            )}
-            {noResults && (
-                <span>{`No Results retrieved for ${searchTerm}`}</span>
-            )}
-            {!cards.length && !hasError ? (
-                <ul className="card-list">
-                    <CardSkeleton count={9} />
-                </ul>
-            ) : (
-                <ul className="card-list">
-                    {cards &&
-                        cards.map(item => {
-                            const { id } = item;
-                            return <Card key={id} info={item} />;
-                        })}
-                    {isFetching && <CardSkeleton count={5} />}
-                </ul>
-            )}
+            <div className="sticky-header">
+                <div className="sticky-header-container">
+                    <div className="form-group field">
+                        <input
+                            type="text"
+                            placeholder="Search"
+                            value={searchTerm}
+                            onChange={handleChange}
+                            className="form-field"
+                            name="search"
+                            id="search"
+                        />
+                        <label htmlFor="Search" className="form-label">
+                            Search
+                        </label>
+                    </div>
+                    <NoResults
+                        noResults={noResults}
+                        searchTerm={searchTerm}
+                        onClickHandler={resetData}
+                    />
+                    {searchTerm && !noResults && (
+                        <div>
+                            <p>{`Showing results for "${searchTerm}"`}</p>
+                        </div>
+                    )}
+                </div>
+            </div>
+            <div className="card-container">
+                <ErrorCard hasError={hasError} />
+                {!cards.length && !hasError ? (
+                    <ul className="card-list">
+                        <CardSkeleton count={9} />
+                    </ul>
+                ) : (
+                    <ul className="card-list">
+                        {cards &&
+                            cards.map(item => {
+                                const { id } = item;
+                                return <Card key={id} info={item} />;
+                            })}
+                        {isFetching && <CardSkeleton count={5} />}
+                    </ul>
+                )}
+            </div>
         </React.Fragment>
     );
 };
