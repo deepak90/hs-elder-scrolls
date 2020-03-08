@@ -8,20 +8,20 @@ const CardSkeleton = ({ count = 1 }) => {
         .map((_item, index) => (
             <li className="card" key={index}>
                 <div className="card-image-container">
-                    <Skeleton height={450} />
+                    <Skeleton duration={0.5} height={450} />
                 </div>
                 <div className="card-info-container">
                     <h4 className="card-title">
-                        <Skeleton height={36} width={'60%'} />
+                        <Skeleton duration={0.5} height={36} width={'60%'} />
                     </h4>
                     <div className="card-type">
-                        <Skeleton width={'40%'} />
+                        <Skeleton duration={0.5} width={'40%'} />
                     </div>
                     <div className="card-set-name">
-                        <Skeleton width={'40%'} />
+                        <Skeleton duration={0.5} width={'40%'} />
                     </div>
                     <p className="card-description">
-                        <Skeleton height={50} />
+                        <Skeleton duration={0.5} height={50} />
                     </p>
                 </div>
             </li>

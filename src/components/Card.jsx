@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/card.css';
+import ImageLoader from './ImageLoader';
 
 const Card = ({ info }) => {
     const {
@@ -12,10 +13,10 @@ const Card = ({ info }) => {
     return (
         <li className="card">
             <div className="card-image-container">
-                <img src={imageUrl} alt={cardName} className="card-image" />
+                <ImageLoader src={imageUrl} alt={cardName} />
             </div>
             <div className="card-info-container">
-                <h4 className="card-title">{cardName}</h4>
+                <h3 className="card-title">{cardName}</h3>
                 <div className="card-type">
                     <i>{cardType}</i>
                 </div>

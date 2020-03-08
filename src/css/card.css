@@ -1,8 +1,21 @@
+/* Define the "system" font family */
+@font-face {
+    font-family: system;
+    font-style: normal;
+    font-weight: 300;
+    src: local('.SFNSText-Light'), local('.HelveticaNeueDeskInterface-Light'),
+        local('.LucidaGrandeUI'), local('Ubuntu Light'), local('Segoe UI Light'),
+        local('Roboto-Light'), local('DroidSans'), local('Tahoma');
+}
+
+/* Now, let's apply it on an element */
+body {
+    font-family: 'system';
+}
 .App {
     max-width: 960px;
     margin: 0 auto;
     font-size: 16px;
-    font-family: sans-serif;
 }
 
 .card-list {
@@ -36,12 +49,13 @@
     width: 100%;
 }
 .card-title {
-    margin-top: 10px;
-    margin-bottom: 0;
+    margin: 10px 0;
 }
 .card-type {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin: 5px 0;
+}
+.card-set-name {
+    margin: 5px 0;
     font-size: 14px;
 }
 
@@ -64,4 +78,27 @@
     .card {
         width: 100%;
     }
+}
+
+@keyframes fadeInImg {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.img-loading {
+    opacity: 0;
+}
+
+.img-loaded {
+    animation: fadeInImg cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    animation-duration: 0.7s;
+    animation-delay: 0.1s;
+    width: 100%;
 }
