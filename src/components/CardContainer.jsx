@@ -3,7 +3,6 @@ import Card from './Card';
 import CardSkeleton from './CardSkeleton';
 
 import '../css/card-container.css';
-import LazyLoad from 'react-lazyload';
 
 const CardContainer = () => {
     const [hasError, setErrors] = useState(false);
@@ -68,16 +67,7 @@ const CardContainer = () => {
             {cards &&
                 cards.map(item => {
                     const { id } = item;
-                    return (
-                        <LazyLoad
-                            once={true}
-                            key={id}
-                            height={600}
-                            placeholder={<CardSkeleton count={1} />}
-                        >
-                            <Card info={item} />
-                        </LazyLoad>
-                    );
+                    return <Card key={id} info={item} />;
                 })}
             {isFetching && <CardSkeleton count={5} />}
         </ul>

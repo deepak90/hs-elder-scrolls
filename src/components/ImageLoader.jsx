@@ -1,47 +1,18 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-const _loaded = {};
-
-class ImageLoader extends Component {
-    //initial state: image loaded stage
-    state = {
-        loaded: _loaded[this.props.src]
-    };
-
-    //define our loading and loaded image classes
-    static defaultProps = {
-        className: '',
-        loadingClassName: 'img-loading',
-        loadedClassName: 'img-loaded'
-    };
+const ImageLoader = ({ src, alt, imageClass = '' }) => {
+    const [hasLoaded, setHasLoaded] = useState(false);
 
     //image onLoad handler to update state to loaded
-    onLoad = () => {
-        _loaded[this.props.src] = true;
-        this.setState(() => ({ loaded: true }));
-    };
-
-    render() {
-        let {
-            className,
-            loadedClassName,
-            loadingClassName,
-            ...props
-        } = this.props;
-
-        className = `${className} ${
-            this.state.loaded ? loadedClassName : loadingClassName
-        }`;
-
-        return (
-            <img
-                src={this.props.src}
-                className={className}
-                onLoad={this.onLoad}
-                alt={this.props.alt}
-            />
-        );
+    function onLoad() {
+        setHasLoaded(true);
     }
-}
+
+    const imageClasses = `${imageClass} ${
+        hasLoaded ? 'img-loaded' : 'img-loading'
+    }`;
+
+    return <img src={src} className={imageClasses} onLoad={onLoad} alt={alt} />;
+};
 
 export default ImageLoader;
