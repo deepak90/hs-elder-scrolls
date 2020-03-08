@@ -7,20 +7,21 @@ import '../css/card-container.css';
 const CardContainer = () => {
     const [hasError, setErrors] = useState(false);
     const [cards, setCards] = useState([]);
-    const [nextUrl, setUrl] = useState(
+    const [nextUrl, setNext] = useState(
         'https://api.elderscrollslegends.io/v1/cards?pageSize=20'
     );
     const [isFetching, setIsFetching] = useState(false);
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     async function fetchData() {
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
         try {
             const res = await fetch(nextUrl);
             res.json().then(res => {
                 setCards([...cards, ...res.cards]);
-                setUrl(res._links.next || '');
+                setNext(res._links.next || null);
                 setIsFetching(false);
             });
         } catch (err) {
@@ -33,17 +34,25 @@ const CardContainer = () => {
             window.innerHeight + document.documentElement.scrollTop !==
                 document.documentElement.offsetHeight ||
             isFetching
-        )
+        ) {
             return;
-        setIsFetching(true);
+        }
+        if (nextUrl) {
+            setIsFetching(true);
+        }
     }
+    // run once when component mounts, fetching the first 20
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [isFetching]);
 
     useEffect(() => {
+        if (!isFetching) return;
         fetchData();
     }, [isFetching]);
 

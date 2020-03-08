@@ -10,7 +10,8 @@ const CardSkeleton = () => {
                     .fill()
                     .map((_item, index) => (
                         <li className="card" key={index}>
-                            <Skeleton height={300} />
+                            <Skeleton height={400} />
+
                             <h4 className="card-title">
                                 <Skeleton height={36} />
                             </h4>
