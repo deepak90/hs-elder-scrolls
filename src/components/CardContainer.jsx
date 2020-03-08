@@ -13,11 +13,6 @@ const CardContainer = () => {
     );
     const [isFetching, setIsFetching] = useState(true);
 
-    // run once when component mounts, fetching the first 20
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
-
     useEffect(() => {
         function handleScroll() {
             if (
