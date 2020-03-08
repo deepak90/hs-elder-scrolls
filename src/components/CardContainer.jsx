@@ -12,6 +12,7 @@ const CardContainer = () => {
     const [nextUrl, setNext] = useState(baseUrl);
     const [isFetching, setIsFetching] = useState(true);
     const [searchTerm, setSearchTerm] = React.useState('');
+    const [noResults, setNoResults] = useState(false);
 
     const handleChange = event => {
         setSearchTerm(event.target.value);
@@ -39,9 +40,16 @@ const CardContainer = () => {
             const url = searchTerm ? `${baseUrl}&name=${searchTerm}` : nextUrl;
             const res = await fetch(url);
             res.json().then(res => {
-                searchTerm
-                    ? setCards([...res.cards])
-                    : setCards([...cards, ...res.cards]);
+                if (searchTerm) {
+                    if (res.cards && res.cards.length) {
+                        setCards([...res.cards]);
+                        setNoResults(false);
+                    } else {
+                        setNoResults(true);
+                    }
+                } else {
+                    setCards([...cards, ...res.cards]);
+                }
                 setNext((res._links && res._links.next) || null);
                 setIsFetching(false);
                 if (searchTerm) {
@@ -80,14 +88,6 @@ const CardContainer = () => {
         fetchData(searchTerm);
     }, [searchTerm]);
 
-    if (hasError) {
-        return (
-            <span>
-                We're unable to fetch Cards at this time, Please try again later
-            </span>
-        );
-    }
-
     return (
         <React.Fragment>
             <input
@@ -96,6 +96,18 @@ const CardContainer = () => {
                 value={searchTerm}
                 onChange={handleChange}
             />
+            {searchTerm && !noResults && (
+                <span>{`Searching for ${searchTerm}`}</span>
+            )}
+            {hasError && (
+                <span>
+                    We're unable to fetch Cards at this time, Please try again
+                    later
+                </span>
+            )}
+            {noResults && (
+                <span>{`No Results retrieved for ${searchTerm}`}</span>
+            )}
             {!cards.length && !hasError ? (
                 <ul className="card-list">
                     <CardSkeleton count={9} />
