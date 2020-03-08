@@ -45,7 +45,7 @@ const CardContainer = () => {
         }
         if (!isFetching) return;
         fetchData();
-    }, [cards, nextUrl, isFetching]);
+    }, [isFetching]);
 
     if (!cards.length && !hasError) {
         return (
