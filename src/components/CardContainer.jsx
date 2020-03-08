@@ -3,6 +3,7 @@ import Card from './Card';
 import CardSkeleton from './CardSkeleton';
 
 import '../css/card-container.css';
+import LazyLoad from 'react-lazyload';
 
 const CardContainer = () => {
     const [hasError, setErrors] = useState(false);
@@ -11,10 +12,6 @@ const CardContainer = () => {
         'https://api.elderscrollslegends.io/v1/cards?pageSize=20'
     );
     const [isFetching, setIsFetching] = useState(false);
-
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
 
     async function fetchData() {
         try {
@@ -29,27 +26,27 @@ const CardContainer = () => {
         }
     }
 
-    function handleScroll() {
-        if (
-            window.innerHeight + document.documentElement.scrollTop !==
-                document.documentElement.offsetHeight ||
-            isFetching
-        ) {
-            return;
-        }
-        if (nextUrl) {
-            setIsFetching(true);
-        }
-    }
     // run once when component mounts, fetching the first 20
     useEffect(() => {
         fetchData();
     }, []);
 
     useEffect(() => {
+        function handleScroll() {
+            if (
+                window.innerHeight + document.documentElement.scrollTop !==
+                    document.documentElement.offsetHeight ||
+                isFetching
+            ) {
+                return;
+            }
+            if (nextUrl) {
+                setIsFetching(true);
+            }
+        }
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [isFetching]);
+    }, [nextUrl, isFetching]);
 
     useEffect(() => {
         if (!isFetching) return;
@@ -57,7 +54,11 @@ const CardContainer = () => {
     }, [isFetching]);
 
     if ((isFetching && !hasError) || !cards.length) {
-        return <CardSkeleton />;
+        return (
+            <ul className="card-list">
+                <CardSkeleton count={9} />
+            </ul>
+        );
     }
 
     if (hasError) {
@@ -69,11 +70,20 @@ const CardContainer = () => {
     }
 
     return (
-        <ul className="list">
+        <ul className="card-list">
             {cards &&
                 cards.map(item => {
                     const { id } = item;
-                    return <Card key={id} info={item} />;
+                    return (
+                        <LazyLoad
+                            once={true}
+                            key={id}
+                            height={600}
+                            placeholder={<CardSkeleton count={1} />}
+                        >
+                            <Card info={item} />
+                        </LazyLoad>
+                    );
                 })}
         </ul>
     );

@@ -4,7 +4,7 @@
     font-size: 16px;
 }
 
-.list {
+.card-list {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -16,6 +16,8 @@
     width: calc(33% - 10px);
     max-width: 250px;
     margin: 20px 0;
+    padding: 10px 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 .card-link {
     color: inherit;

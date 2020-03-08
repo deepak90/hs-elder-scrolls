@@ -1,4 +1,5 @@
 import React from 'react';
+import LazyLoad from 'react-lazyload';
 import '../css/card.css';
 
 const Card = ({ info }) => {
@@ -19,7 +20,9 @@ const Card = ({ info }) => {
             <div className="card-set-name">
                 <i>{cardSetName}</i>
             </div>
-            <p className="card-description">{cardDescription}</p>
+            {cardDescription && (
+                <p className="card-description">{cardDescription}</p>
+            )}
         </li>
     );
 };
