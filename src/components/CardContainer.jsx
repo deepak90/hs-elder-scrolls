@@ -31,13 +31,9 @@ const CardContainer = () => {
     }, [isFetching]);
 
     useEffect(() => {
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
         async function fetchData() {
             try {
                 const res = await fetch(nextUrl);
-                await sleep(300);
                 res.json().then(res => {
                     setCards([...cards, ...res.cards]);
                     setNext(res._links.next || null);
