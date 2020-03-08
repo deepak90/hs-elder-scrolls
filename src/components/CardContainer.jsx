@@ -28,9 +28,12 @@ const CardContainer = () => {
         }
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [nextUrl, isFetching]);
+    }, [isFetching]);
 
     useEffect(() => {
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
         async function fetchData() {
             try {
                 const res = await fetch(nextUrl);
@@ -73,12 +76,14 @@ const CardContainer = () => {
                             once={true}
                             key={id}
                             height={600}
+                            debounce={500}
                             placeholder={<CardSkeleton count={1} />}
                         >
                             <Card info={item} />
                         </LazyLoad>
                     );
                 })}
+            {isFetching && <CardSkeleton count={5} />}
         </ul>
     );
 };
