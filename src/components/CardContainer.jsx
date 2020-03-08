@@ -11,25 +11,12 @@ const CardContainer = () => {
     const [nextUrl, setNext] = useState(
         'https://api.elderscrollslegends.io/v1/cards?pageSize=20'
     );
-    const [isFetching, setIsFetching] = useState(false);
-
-    async function fetchData() {
-        try {
-            const res = await fetch(nextUrl);
-            res.json().then(res => {
-                setCards([...cards, ...res.cards]);
-                setNext(res._links.next || null);
-                setIsFetching(false);
-            });
-        } catch (err) {
-            setErrors(err);
-        }
-    }
+    const [isFetching, setIsFetching] = useState(true);
 
     // run once when component mounts, fetching the first 20
-    useEffect(() => {
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
 
     useEffect(() => {
         function handleScroll() {
@@ -49,11 +36,23 @@ const CardContainer = () => {
     }, [nextUrl, isFetching]);
 
     useEffect(() => {
+        async function fetchData() {
+            try {
+                const res = await fetch(nextUrl);
+                res.json().then(res => {
+                    setCards([...cards, ...res.cards]);
+                    setNext(res._links.next || null);
+                    setIsFetching(false);
+                });
+            } catch (err) {
+                setErrors(err);
+            }
+        }
         if (!isFetching) return;
         fetchData();
-    }, [isFetching]);
+    }, [cards, nextUrl, isFetching]);
 
-    if ((isFetching && !hasError) || !cards.length) {
+    if (!cards.length && !hasError) {
         return (
             <ul className="card-list">
                 <CardSkeleton count={9} />

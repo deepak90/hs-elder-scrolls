@@ -1,5 +1,4 @@
 import React from 'react';
-import LazyLoad from 'react-lazyload';
 import '../css/card.css';
 
 const Card = ({ info }) => {
