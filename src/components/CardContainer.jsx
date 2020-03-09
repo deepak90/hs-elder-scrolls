@@ -88,7 +88,7 @@ const CardContainer = () => {
         }
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [isFetching]);
+    }, [nextUrl, isFetching]);
 
     useEffect(() => {
         if (!isFetching) return;
