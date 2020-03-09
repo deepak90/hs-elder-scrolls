@@ -31,9 +31,9 @@ const CardContainer = () => {
                     setCards([...res.cards]);
                     setNext((res._links && res._links.next) || null);
                     setIsFetching(false);
-                    forceCheck();
                     setSearchTerm('');
                     setNoResults(false);
+                    forceCheck();
                 });
             } else {
                 throw Error('Non 200 response recieved from API');
@@ -82,7 +82,7 @@ const CardContainer = () => {
             ) {
                 return;
             }
-            if (nextUrl && !searchTerm) {
+            if (nextUrl) {
                 setIsFetching(true);
             }
         }
@@ -126,6 +126,9 @@ const CardContainer = () => {
                     {searchTerm && !noResults && (
                         <div>
                             <p>{`Showing results for "${searchTerm}"`}</p>
+                            <span className="btn-link" onClick={resetData}>
+                                Clear Filter
+                            </span>
                         </div>
                     )}
                 </div>

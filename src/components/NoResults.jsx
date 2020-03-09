@@ -6,8 +6,7 @@ const NoResults = ({ noResults = false, searchTerm, onClickHandler }) => {
             <div>
                 <p>{`No Results found for "${searchTerm}"`}</p>
                 <span className="btn-link" onClick={onClickHandler}>
-                    {' '}
-                    Click here to Reset{' '}
+                    Clear Filter
                 </span>
             </div>
         )
