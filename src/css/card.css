@@ -186,3 +186,7 @@ body {
 .form-field:invalid {
     box-shadow: none;
 }
+
+.no-results-true {
+    background: #fd0707;
+}

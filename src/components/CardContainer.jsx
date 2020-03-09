@@ -102,7 +102,7 @@ const CardContainer = () => {
 
     return (
         <React.Fragment>
-            <div className="sticky-header">
+            <div className={`sticky-header no-results-${noResults}`}>
                 <div className="sticky-header-container">
                     <div className="form-group field">
                         <input
