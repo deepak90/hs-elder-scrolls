@@ -56,6 +56,6 @@ body {
 /* Mobiles */
 @media (max-width: 640px) {
     .card {
-        max-width: 100%;
+        width: 100%;
     }
 }
