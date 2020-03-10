@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './image-loader.css';
 
 const ImageLoader = ({ src: imageSrc, alt: imageAlt, imageClass = '' }) => {
     const [hasLoaded, setHasLoaded] = useState(false);

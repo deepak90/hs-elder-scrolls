@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Card from './Card';
-import CardSkeleton from './CardSkeleton';
+import Card from '../card/Card';
+import CardSkeleton from '../card-skeleton/CardSkeleton';
 import { forceCheck } from 'react-lazyload';
 
-import '../css/card-container.css';
-import NoResults from './NoResults';
-import ErrorCard from './ErrorCard';
+import './card-container.css';
+import ErrorCard from '../error-card/ErrorCard';
+import StickyHeader from '../sticky-header/StickyHeader';
 
 const CardContainer = () => {
     const baseUrl = 'https://api.elderscrollslegends.io/v1/cards?pageSize=20';
@@ -102,37 +102,12 @@ const CardContainer = () => {
 
     return (
         <React.Fragment>
-            <div className={`sticky-header no-results-${noResults}`}>
-                <div className="sticky-header-container">
-                    <div className="form-group field">
-                        <input
-                            type="text"
-                            placeholder="Search"
-                            value={searchTerm}
-                            onChange={handleChange}
-                            className="form-field"
-                            name="search"
-                            id="search"
-                        />
-                        <label htmlFor="Search" className="form-label">
-                            Search
-                        </label>
-                    </div>
-                    <NoResults
-                        noResults={noResults}
-                        searchTerm={searchTerm}
-                        onClickHandler={resetData}
-                    />
-                    {searchTerm && !noResults && (
-                        <div>
-                            <p>{`Showing results for "${searchTerm}"`}</p>
-                            <span className="btn-link" onClick={resetData}>
-                                Clear Filter
-                            </span>
-                        </div>
-                    )}
-                </div>
-            </div>
+            <StickyHeader
+                noResults={noResults}
+                handleChange={handleChange}
+                searchTerm={searchTerm}
+                resetData={resetData}
+            />
             <div className="card-container">
                 <ErrorCard hasError={hasError} />
                 {!cards.length && !hasError ? (

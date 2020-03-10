@@ -1,9 +1,9 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
-import ImageLoader from './ImageLoader';
-import CardSkeleton from './CardSkeleton';
+import ImageLoader from '../image-loader/ImageLoader';
+import CardSkeleton from '../card-skeleton/CardSkeleton';
 
-import '../css/card.css';
+import './card.css';
 
 const Card = ({ info }) => {
     const {

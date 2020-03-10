@@ -1,0 +1,29 @@
+.card-container {
+    max-width: 960px;
+    margin: 0 auto;
+    font-size: 16px;
+    padding: 100px 50px 0 50px;
+}
+
+.card-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+}
+
+/* Tablets */
+@media (max-width: 1000px) {
+    .card-container {
+        max-width: 600px;
+    }
+}
+
+/* Mobiles */
+@media (max-width: 640px) {
+    .card-container {
+        max-width: 100%;
+        padding: 100px 15px 0 15px;
+    }
+}
