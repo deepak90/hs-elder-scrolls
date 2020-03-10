@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
-import '../card/card.css';
+import '../Card/card.css';
 
 const CardSkeleton = ({ count = 1 }) => {
     return Array(count)

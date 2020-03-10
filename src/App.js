@@ -1,5 +1,5 @@
 import React from 'react';
-import CardContainer from './components/card-container/CardContainer';
+import CardContainer from './components/CardContainer/CardContainer';
 
 const App = () => {
     return (

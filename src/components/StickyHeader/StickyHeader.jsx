@@ -1,5 +1,5 @@
 import React from 'react';
-import NoResults from '../no-results/NoResults';
+import NoResults from '../NoResults/NoResults';
 import './sticky-header.css';
 
 const StickyHeader = ({ noResults, searchTerm, handleChange, resetData }) => {

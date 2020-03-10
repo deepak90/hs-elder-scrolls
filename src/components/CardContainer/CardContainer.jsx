@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Card from '../card/Card';
-import CardSkeleton from '../card-skeleton/CardSkeleton';
 import { forceCheck } from 'react-lazyload';
 
+import Card from '../Card/Card';
+import CardSkeleton from '../CardSkeleton/CardSkeleton';
+import ErrorCard from '../ErrorCard/ErrorCard';
+import StickyHeader from '../StickyHeader/StickyHeader';
+
 import './card-container.css';
-import ErrorCard from '../error-card/ErrorCard';
-import StickyHeader from '../sticky-header/StickyHeader';
 
 const CardContainer = () => {
     const baseUrl = 'https://api.elderscrollslegends.io/v1/cards?pageSize=20';

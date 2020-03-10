@@ -1,7 +1,7 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
-import ImageLoader from '../image-loader/ImageLoader';
-import CardSkeleton from '../card-skeleton/CardSkeleton';
+import ImageLoader from '../ImageLoader/ImageLoader';
+import CardSkeleton from '../CardSkeleton/CardSkeleton';
 
 import './card.css';
 
