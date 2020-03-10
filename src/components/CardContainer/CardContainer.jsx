@@ -14,7 +14,7 @@ const CardContainer = () => {
     const [cards, setCards] = useState([]);
     const [nextUrl, setNext] = useState(baseUrl);
     const [isFetching, setIsFetching] = useState(true);
-    const [searchTerm, setSearchTerm] = React.useState('');
+    const [searchTerm, setSearchTerm] = useState('');
     const [noResults, setNoResults] = useState(false);
 
     const handleChange = event => {

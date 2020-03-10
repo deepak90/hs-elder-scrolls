@@ -1,25 +1,13 @@
 import React from 'react';
 import NoResults from '../NoResults/NoResults';
 import './sticky-header.css';
+import SearchInput from '../SearchInput/SearchInput';
 
 const StickyHeader = ({ noResults, searchTerm, handleChange, resetData }) => {
     return (
         <div className={`sticky-header no-results-${noResults}`}>
             <div className="sticky-header-container">
-                <div className="form-group field">
-                    <input
-                        type="text"
-                        placeholder="Search"
-                        value={searchTerm}
-                        onChange={handleChange}
-                        className="form-field"
-                        name="search"
-                        id="search"
-                    />
-                    <label htmlFor="Search" className="form-label">
-                        Search
-                    </label>
-                </div>
+                <SearchInput searchTerm={searchTerm} handleChange={handleChange}/>
                 <NoResults
                     noResults={noResults}
                     searchTerm={searchTerm}
