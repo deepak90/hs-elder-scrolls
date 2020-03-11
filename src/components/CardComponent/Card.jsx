@@ -1,5 +1,5 @@
-import React from './node_modules/react';
-import LazyLoad from './node_modules/react-lazyload';
+import React from 'react';
+import LazyLoad from 'react-lazyload';
 import ImageLoader from '../ImageLoader/ImageLoader';
 import CardSkeleton from '../CardSkeleton/CardSkeleton';
 
