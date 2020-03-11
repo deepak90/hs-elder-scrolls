@@ -4,7 +4,6 @@ import './image-loader.css';
 const ImageLoader = ({ src: imageSrc, alt: imageAlt, imageClass = '' }) => {
     const [hasLoaded, setHasLoaded] = useState(false);
 
-    //image onLoad handler to update state to loaded
     function onLoad() {
         setHasLoaded(true);
     }

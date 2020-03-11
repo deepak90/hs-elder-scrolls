@@ -5,9 +5,16 @@ import SearchInput from '../SearchInput/SearchInput';
 
 const StickyHeader = ({ noResults, searchTerm, handleChange, resetData }) => {
     return (
-        <div className={`sticky-header no-results-${noResults} ${searchTerm ? `isSearching`: ``}`}>
+        <div
+            className={`sticky-header no-results-${noResults} ${
+                searchTerm ? `isSearching` : ``
+            }`}
+        >
             <div className="sticky-header-container">
-                <SearchInput searchTerm={searchTerm} handleChange={handleChange}/>
+                <SearchInput
+                    searchTerm={searchTerm}
+                    handleChange={handleChange}
+                />
                 <NoResults
                     noResults={noResults}
                     searchTerm={searchTerm}
