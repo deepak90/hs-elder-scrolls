@@ -9,6 +9,7 @@ import StickyHeader from '../StickyHeader/StickyHeader';
 import './card-container.css';
 
 const CardContainer = () => {
+    //Setting up initial states
     const baseUrl = 'https://api.elderscrollslegends.io/v1/cards?pageSize=20';
     const [hasError, setErrors] = useState(false);
     const [cards, setCards] = useState([]);
@@ -17,6 +18,7 @@ const CardContainer = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [noResults, setNoResults] = useState(false);
 
+    // Fires when search-input is interacted with
     const handleChange = event => {
         setSearchTerm(event.target.value);
         if (event.target.value === '') {
@@ -24,6 +26,7 @@ const CardContainer = () => {
         }
     };
 
+    // Resets cards to initial state when fired
     async function resetData() {
         try {
             const res = await fetch(baseUrl);
@@ -44,6 +47,7 @@ const CardContainer = () => {
         }
     }
 
+    // Fetches data from the elder scrolls api, sets states accordingly
     async function fetchData(searchTerm = '') {
         try {
             const url = searchTerm ? `${baseUrl}&name=${searchTerm}` : nextUrl;
@@ -74,6 +78,9 @@ const CardContainer = () => {
         }
     }
 
+    // Hook fired when state 'isFetching' or 'nextUrl' changes,
+    // sets up a scroll listener to see if user has scrolled past the
+    // document.offsetHeight
     useEffect(() => {
         function handleScroll() {
             if (
@@ -91,11 +98,15 @@ const CardContainer = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [nextUrl, isFetching]);
 
+    // Hook fired when state 'isFetching' changes, fetches initial data and
+    // additional data for infinite scrolling
     useEffect(() => {
         if (!isFetching) return;
         fetchData();
     }, [isFetching]);
 
+    // Hook fired when state 'searchTerm' is changed, fetches data according to
+    // the search term
     useEffect(() => {
         if (!searchTerm) return;
         fetchData(searchTerm);
