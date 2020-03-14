@@ -2,7 +2,7 @@
 
 ## Demo
 
-Site hosted on <a href="https://cranky-archimedes-3dc676.netlify.com/" target="_blank">Netlify</a> (opens in a new tab)
+Site hosted on [Netlify](https://cranky-archimedes-3dc676.netlify.com/)
 
 ## About
 
