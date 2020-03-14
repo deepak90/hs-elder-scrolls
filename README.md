@@ -2,7 +2,7 @@
 
 ## Demo
 
-Site hosted on [Netlify](https://cranky-archimedes-3dc676.netlify.com/)
+Site hosted on <a href="https://cranky-archimedes-3dc676.netlify.com/" target="_blank">Netlify</a> (opens in a new tab)
 
 ## About
 
@@ -14,11 +14,11 @@ Highspot's coding challenge. Fetches records from the [Elder Scrolls Legends API
 
 _This assumes you have [Node.js](https://nodejs.org/en/) and [npm](https://www.npmjs.com/)_
 
-1. `git clone https://github.com/deepak90/hs-elder-scrolls.git`
-2. `cd hs-elder-scrolls`
-3. `npm install`
-4. `npm start`
-5. Go to http://localhost:3000
+-   `git clone https://github.com/deepak90/hs-elder-scrolls.git`
+-   `cd hs-elder-scrolls`
+-   `npm install`
+-   `npm start`
+-   Go to http://localhost:3000
 
 ## Notes
 
