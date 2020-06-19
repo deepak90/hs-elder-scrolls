@@ -6,7 +6,7 @@ Site hosted on [Netlify](https://cranky-archimedes-3dc676.netlify.com/)
 
 ## About
 
-Highspot's coding challenge. Fetches records from the [Elder Scrolls Legends API](https://docs.elderscrollslegends.io/) and renders them as a card grid. Built with React JS
+Fetches records from the [Elder Scrolls Legends API](https://docs.elderscrollslegends.io/) and renders them as a card grid. Built with React JS
 
 ![App](/images/app.png)
 
